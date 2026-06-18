@@ -39,6 +39,43 @@ WHERE transactions_id IS NULL
    OR price_per_unit IS NULL
    OR cogs IS NULL
    OR total_sale IS NULL;
+
+-- changing column name of quantiy to quantity
+alter table retail_sales_data
+rename column quantiy to quantity;
+show columns from retail_sales_data;  -- check columns
    
    
 -- Data Exploration
+
+-- How many sales we have ?
+select count(*) as total_sales from retail_sales_data;  -- total_sales -> 1987
+
+-- How many customers we have ?
+select count(distinct(customer_id)) as total_unique_customers from retail_sales_data;  -- total_unique_customers -> 155
+
+-- How many category we have ?
+select distinct(category) from retail_sales_data;  -- category -> Beauty, Clothing, Electronics
+
+
+
+-- Data Analysis & Business Key Problems & Answers
+-- My Analysis and Findings
+
+-- All columns for sales made on 2022-11-05
+select * 
+from retail_sales_data
+where sale_date = '2022-11-05';  -- for different date just change the date value
+
+-- All the transactions where the category is 'clothing' and the quantity sold is more than 3 in the month Nov-2022
+select transactions_id, category, quantity, sale_date
+from retail_sales_data
+where category = 'Clothing' 
+and quantity > 3 
+and sale_date between '2022-11-01' and '2022-11-30';
+
+-- The total sales for each category
+select category, count(total_sale) as total_orders, sum(total_sale) as total_sales
+from retail_sales_data
+group by category;
+
