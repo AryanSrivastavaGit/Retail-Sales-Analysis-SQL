@@ -79,3 +79,47 @@ select category, count(total_sale) as total_orders, sum(total_sale) as total_sal
 from retail_sales_data
 group by category;
 
+-- The average age of of customers who purchased items from the 'Beauty' category
+select category, round(avg(age)) as average_cutomers_age
+from retail_sales_data
+where category = 'Beauty';
+
+-- All transactions where the total_sale is greater than 1000;
+select *
+from retail_sales_data
+where total_sale > 1000;
+
+-- The total number of transactions made by each gender in each category
+select category, gender, count(transactions_id) as total_transactions
+from retail_sales_data
+group by category, gender
+order by category;
+
+-- The avg sale for each month & best selling month in each year
+-- 1st step - subquery
+-- select 
+-- 	year(sale_date) as year, 
+-- 	month(sale_date) as month, 
+-- 	round(avg(total_sale),2) as average_sale,
+--     rank() over(partition by year(sale_date) order by avg(total_sale) desc) as rnk  -- window function, cannot use alias directly
+-- from retail_sales_data
+-- group by 
+-- 	year(sale_date), 
+-- 	month(sale_date)
+-- order by 
+-- 	year(sale_date),
+--     average_sale desc;
+
+-- 2nd step
+select * from(
+select 
+	year(sale_date) as year, 
+	month(sale_date) as month, 
+	round(avg(total_sale),2) as average_sale,
+    rank() over(partition by year(sale_date) order by avg(total_sale) desc) as rnk  -- window function, cannot use alias directly
+from retail_sales_data
+group by 
+	year(sale_date), 
+	month(sale_date)  -- order by is removed here, because not needed
+) as t
+where rnk = 1;
