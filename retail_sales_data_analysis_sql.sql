@@ -18,7 +18,11 @@ cogs decimal(12,2),
 total_sale decimal(12,2)
 );
 
--- table data imported using inbuild import wizard
+
+-- Data cleaning
+
+-- table data imported using inbuild import wizard, and date formate is changed to yyyy-mm-dd before importing for sql formate compatibility in excel using general -> date -> yyyy-mm-dd
+
 -- check imported and rejected row data
 show tables;
 select * from retail_sales_data;
@@ -56,7 +60,6 @@ select count(distinct(customer_id)) as total_unique_customers from retail_sales_
 
 -- How many category we have ?
 select distinct(category) from retail_sales_data;  -- category -> Beauty, Clothing, Electronics
-
 
 
 -- Data Analysis & Business Key Problems & Answers
