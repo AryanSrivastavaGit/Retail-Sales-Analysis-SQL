@@ -96,7 +96,8 @@ group by category, gender
 order by category;
 
 -- The avg sale for each month & best selling month in each year
--- 1st step - subquery
+
+-- 1st step - avg sale for each month
 -- select 
 -- 	year(sale_date) as year, 
 -- 	month(sale_date) as month, 
@@ -110,7 +111,7 @@ order by category;
 -- 	year(sale_date),
 --     average_sale desc;
 
--- 2nd step
+-- 2nd step - best selling month in each year
 select * from(
 select 
 	year(sale_date) as year, 
@@ -124,4 +125,16 @@ group by
 ) as t
 where rnk = 1;
 
+-- The top 5 customres based on the highest total sales
+select customer_id, sum(total_sale) as purchased
+from retail_sales_data
+group by customer_id
+order by purchased desc 
+limit 5;
 
+-- The number of unique customers who purchased itmes from each category
+select category, count(distinct(customer_id)) as unique_customers
+from retail_sales_data
+group by category;
+
+-- Create each shif and number of orders, ex:- morning <=12, afternoon between 12 and 17, evening > 17.
