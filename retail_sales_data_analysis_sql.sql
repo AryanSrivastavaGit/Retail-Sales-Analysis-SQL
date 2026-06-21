@@ -150,3 +150,5 @@ select
     count(*) as total_orders
 from retail_sales_data
 group by shift;
+
+-- Project End
