@@ -137,4 +137,13 @@ select category, count(distinct(customer_id)) as unique_customers
 from retail_sales_data
 group by category;
 
--- Create each shif and number of orders, ex:- morning <=12, afternoon between 12 and 17, evening > 17.
+-- Create each shift and number of orders, ex:- morning <=12, afternoon between 12 and 17, evening > 17.
+select 
+	case
+		when hour(sale_time) < 12 then 'Morning'
+        when hour(sale_time) between 12 and 17 then 'Afternoon'
+        else 'Evening'
+	end as shift,
+    count(*) as total_orders
+from retail_sales_data
+group by shift;
