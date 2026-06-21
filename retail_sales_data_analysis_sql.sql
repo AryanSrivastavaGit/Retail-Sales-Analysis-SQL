@@ -123,3 +123,5 @@ group by
 	month(sale_date)  -- order by is removed here, because not needed
 ) as t
 where rnk = 1;
+
+
